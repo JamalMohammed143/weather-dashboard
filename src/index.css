@@ -15,3 +15,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+html .dark,
+html .light {
+  display: none;
+}
+
+html.dark .dark {
+  display: inline-block;
+}
+html:not(.dark) .light {
+  display: inline-block;
+}

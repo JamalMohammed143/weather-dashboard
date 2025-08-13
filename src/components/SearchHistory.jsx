@@ -14,7 +14,7 @@ export default function SearchHistory() {
           <button
             key={`${city}-${i}`}
             onClick={() => fetchWeather(city)}
-            className="px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition text-sm"
+            className="px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition text-sm capitalize"
           >
             {city}
           </button>

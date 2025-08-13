@@ -30,8 +30,11 @@ export default function WeatherDisplay() {
   return (
     <div className="max-w-md mx-auto mt-6 p-6 rounded-3xl shadow-md bg-white dark:bg-gray-800">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">{weather.city}</h2>
-        <span className="text-4xl">{iconFor(weather.condition)}</span>
+        <h2 className="text-2xl font-semibold capitalize">
+          <span className="text-3xl me-2 dark">🌆</span>
+          <span className="text-3xl me-2 light">🏙️</span>
+        {weather.city}</h2>
+        <span className="text-5xl">{iconFor(weather.condition)}</span>
       </div>
 
       <div className="mt-4 grid grid-cols-2 gap-4 text-center">
