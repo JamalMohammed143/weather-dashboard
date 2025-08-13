@@ -1,18 +1,25 @@
-export default function SearchHistory({ history, onSelect }) {
+import { useWeather } from "../WeatherContext";
+
+export default function SearchHistory() {
+  const { history, fetchWeather } = useWeather();
+  if (!history.length) return null;
+
   return (
-    <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
-      <h3 className="font-bold mb-2">Recent Searches</h3>
-      <ul className="space-y-1">
-        {history.map((item, idx) => (
-          <li
-            key={idx}
-            onClick={() => onSelect(item)}
-            className="cursor-pointer hover:text-blue-500"
+    <div className="max-w-md mx-auto mt-6">
+      <h3 className="mb-2 text-sm font-semibold text-gray-600 dark:text-gray-300">
+        Recent searches
+      </h3>
+      <div className="flex flex-wrap gap-2">
+        {history.map((city, i) => (
+          <button
+            key={`${city}-${i}`}
+            onClick={() => fetchWeather(city)}
+            className="px-3 py-1 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition text-sm"
           >
-            {item}
-          </li>
+            {city}
+          </button>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

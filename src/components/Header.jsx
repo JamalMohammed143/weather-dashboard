@@ -1,27 +1,36 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Header() {
-  const [darkMode, setDarkMode] = useState(() => localStorage.theme === "dark");
+  const [dark, setDark] = useState(() => {
+    const stored = localStorage.getItem("theme");
+    if (stored) return stored === "dark";
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  });
 
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.theme = "dark";
+    const root = document.documentElement;
+    if (dark) {
+      root.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.theme = "light";
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
-  }, [darkMode]);
+  }, [dark]);
 
   return (
-    <header className="flex items-center justify-between p-4 shadow-md bg-white dark:bg-gray-800 dark:text-white transition-colors">
-      <h1 className="text-2xl font-bold">Weather Dashboard</h1>
-      <button
-        onClick={() => setDarkMode(!darkMode)}
-        className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 hover:scale-105 transition"
-      >
-        {darkMode ? "☀️ Light" : "🌙 Dark"}
-      </button>
+    <header className="sticky top-0 z-10 backdrop-blur bg-white/70 dark:bg-gray-900/70 border-b border-gray-200 dark:border-gray-800">
+      <div className="max-w-5xl mx-auto flex items-center justify-between p-4">
+        <h1 className="text-xl md:text-2xl font-bold">Weather Dashboard</h1>
+        <button
+          onClick={() => setDark((d) => !d)}
+          className="inline-flex items-center gap-2 rounded-xl px-3 py-2 bg-gray-200 dark:bg-gray-800 hover:scale-[1.02] transition"
+          aria-label="Toggle theme"
+          title="Toggle light/dark"
+        >
+          {dark ? "☀️ Light" : "🌙 Dark"}
+        </button>
+      </div>
     </header>
   );
 }

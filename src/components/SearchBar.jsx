@@ -1,27 +1,30 @@
 import { useState } from "react";
+import { useWeather } from "../WeatherContext";
 
-export default function SearchBar({ onSearch }) {
+export default function SearchBar() {
+  const { fetchWeather, loading } = useWeather();
   const [city, setCity] = useState("");
 
-  const handleSubmit = (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    if (city.trim()) {
-      onSearch(city);
-      setCity("");
-    }
+    if (!city.trim()) return;
+    fetchWeather(city.trim());
+    setCity("");
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex gap-2">
+    <form onSubmit={onSubmit} className="w-full max-w-xl mx-auto flex gap-2">
       <input
-        type="text"
-        placeholder="Enter city..."
         value={city}
         onChange={(e) => setCity(e.target.value)}
-        className="flex-1 p-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+        placeholder="Search a city…"
+        className="flex-1 rounded-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-        Search
+      <button
+        disabled={loading}
+        className="rounded-2xl px-5 py-3 bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-60"
+      >
+        {loading ? "Searching…" : "Search"}
       </button>
     </form>
   );
